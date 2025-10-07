@@ -3,8 +3,13 @@ import { getPostBySlug } from "@/lib/posts";
 import PostContent from "@/components/PostContent";
 import { notFound } from "next/navigation";
 
-export default function PostPage({ params }: { params: { slug: string } }) {
-  const post = getPostBySlug(params.slug);
+export default async function PostPage({ 
+  params 
+}: { 
+  params: Promise<{ slug: string }> 
+}) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   if (!post) return notFound();
 
   return (
